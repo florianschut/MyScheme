@@ -41,7 +41,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        // First called function (main() for Java...)
+        //Setting some stuff up for the tableView
         self.schemeTableView.dataSource = self
         self.schemeTableView.delegate = self
     }
@@ -53,19 +54,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             //Using this over the standard viewDidLoad since it's imposible to call segue's before the view is loaded.
             let defaults = NSUserDefaults.standardUserDefaults()
             //checks if both values are pressent and sets leerlingNr and studentID to nr and id respectively and loads the jsondata
-            //else send the user to the settings page
+            //else send the user to the settings page with a Segue
             if let shownID = defaults.stringForKey("shownID"){
                 if let id = defaults.stringForKey("userID"){
                     self.shownID = shownID
                     self.userID = id
                     self.jsonExtraction.callJson(id, handleData: self.outputHandler)
-                }else{
-                    self.performSegueWithIdentifier("toSettingsSegue", sender: self)
+                    return
                 }
-            }else{
-                self.performSegueWithIdentifier("toSettingsSegue", sender: self)
             }
+            self.performSegueWithIdentifier("toSettingsSegue", sender: self)
         }else{
+            //Use return or else
             dispatch_async(dispatch_get_main_queue(), {
                 self.errorMessage = "No internet connection"
                 self.schemeTableView.reloadData()
