@@ -33,6 +33,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     //Show when stuff goes shouth... Or is loading
     var errorMessage = "Aan het laden..."
     
+    //Adding UI Ellements
     @IBOutlet weak var schemeTableView: UITableView!
     @IBAction func settingsButtonPressed(sender: AnyObject) {
         self.performSegueWithIdentifier("toSettingsSegue", sender: self)
