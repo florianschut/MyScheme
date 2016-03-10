@@ -10,11 +10,14 @@ import UIKit
 
 class SettingsViewController: UIViewController {
     //MARK: Propeties
-    var data: Dictionary<String,Array<String>>?
-    var students: [String]?
     var jsonExtraction = JsonExtraction()
+    var data: Dictionary<String,Array<String>>?
+    //List of all the Students numbers
+    var students: [String]?
+    //The ID that reprecents the location on the server
     var userID: String?
     
+    //Setting up UI Ellements
     @IBOutlet weak var leerlingNrLabel: UITextField!
     @IBOutlet weak var loadButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
@@ -23,6 +26,7 @@ class SettingsViewController: UIViewController {
     
     @IBAction func loadPressed(sender: AnyObject) {
         print("Students")
+        //Checks if the entered number exists in the Array of students
         if self.students!.contains(self.leerlingNrLabel.text!){
             //Checks the location in the students array and sets it in userID as a string...
             self.userID = String(self.students!.indexOf(self.leerlingNrLabel.text!)! + 1)
@@ -47,7 +51,7 @@ class SettingsViewController: UIViewController {
         }
     }
     
-    var leerlingNrs: [String] = [String]()
+   // var leerlingNrs: [String] = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +66,8 @@ class SettingsViewController: UIViewController {
     }
     
     func outputHandler(output: Dictionary<String,Array<String>>?){
-        if output != nil {
+        //Checks for data containing students
+        if ((output != nil) && (output!["Students"] != nil)) {
             self.data = output
             //Takes the output from callJson and sets self.students
             self.students = self.data!["Students"]
