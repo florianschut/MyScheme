@@ -133,6 +133,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func outputHandler(output: Dictionary<String,Array<String>>?){
+        //Gets called when getJson returns with his data
+        
         //Check's if there is any data
         if output != nil {
             //Check's if there isn't an error

@@ -25,6 +25,7 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var segmentControl: UISegmentedControl!
     
     @IBAction func loadPressed(sender: AnyObject) {
+        //Does the magic when button gets pressed
         print("Students")
         //Checks if the entered number exists in the Array of students
         if self.students!.contains(self.leerlingNrLabel.text!){
@@ -51,8 +52,6 @@ class SettingsViewController: UIViewController {
         }
     }
     
-   // var leerlingNrs: [String] = [String]()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -66,6 +65,8 @@ class SettingsViewController: UIViewController {
     }
     
     func outputHandler(output: Dictionary<String,Array<String>>?){
+        //Gets called when callJson is done
+        
         //Checks for data containing students
         if ((output != nil) && (output!["Students"] != nil)) {
             self.data = output

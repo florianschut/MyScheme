@@ -28,6 +28,7 @@ class JsonExtraction {
             (data, response, error) -> Void in
             
             do{
+                //Tries to get the data from server
                 self.jsonOutput = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as? Dictionary<String,Array<String>>
             }
             catch _ {
