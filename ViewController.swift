@@ -75,7 +75,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     //MARK: Setting up tableView
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //The code to set the number of rows
+        //The code to set the number of rows(lessons per day)
         if self.gotScheme{
             return self.lecturesPerDay[section]
         }else{
@@ -96,11 +96,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         //The code to set what is displayed in a row of the tableView
+        
+        //Setting up the cell
         let cell = tableView.dequeueReusableCellWithIdentifier("schemeCell", forIndexPath:indexPath)
         if self.gotScheme{
             //Puts the hour and lecture in an array to be propperly displayed
-            let dataPerDay = self.schemeDictionary[self.days[indexPath.section]]![indexPath.row].componentsSeparatedByString(":")
             //Using Days[] for the key and row for array index to populate label from schemeDict
+            let dataPerDay = self.schemeDictionary[self.days[indexPath.section]]![indexPath.row].componentsSeparatedByString(":")
+            //Setting the values
             cell.detailTextLabel!.text = dataPerDay[0]
             cell.detailTextLabel!.font = UIFont.italicSystemFontOfSize(16)
             cell.textLabel!.text = dataPerDay[1]
@@ -130,14 +133,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func outputHandler(output: Dictionary<String,Array<String>>?){
+        //Check's if there is any data
         if output != nil {
+            //Check's if there isn't an error
             if output!["error"] == nil {
                 print(output)
                 //Checks if required data is in output to be able to force unwrap
                 if (output?["scheme"] != nil && output?["changes"] != nil && output?["scheme"]!.count == 30 && output?["changes"]!.count == 30){
+                    //Storing the force unwraped data
                     self.schemeArray = output!["scheme"]!
                     self.changesArray = output!["changes"]!
-                    //Checks if there is something in output[id] and compares it to shownID
+                    //Checks if there is something in output[id] and compares it to shownID to see if it's the propper scheme
                     if (output?["id"] != nil && !output!["id"]!.isEmpty && (output!["id"]!)[0] == self.shownID!){
                         dispatch_async(dispatch_get_main_queue(), {
                             self.populateScheme()
@@ -182,6 +188,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     //1: Changed -> Red
                     //2: Droped lesson -> Red
                 case "1":
+                    //Adds the data for the hour to an array that is easy to print later on
                     self.schemeDictionary[schemeKey]!.append("\((lecture+1) - 6*printedDay):\(self.schemeArray[lecture])")
                     self.changesDictionary[schemeKey]!.append(true)
                     ++lengthOfDay
